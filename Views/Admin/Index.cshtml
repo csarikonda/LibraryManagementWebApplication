@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+@if (HttpContextAccessor.HttpContext.Session.GetString("email") == null)
+{
+    <div class="container">
+        <div>
+            <div>
+                <h1>Login</h1>
+                @if (ViewBag.LoginError != null)
+                {
+                    <p class="text-danger">Enter Valid Credentials</p>
+                }
+                <br />
+                <form asp-action="Login" method="get">
+                    <input name="email" class="form-control" type="email" placeholder="Email" />
+                    <br />
+                    <input name="password" class="form-control" type="password" placeholder="Password" />
+                    <br />
+                    <input class="btn btn-primary" type="submit" value="Login" />
+                </form>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome @HttpContextAccessor.HttpContext.Session.GetString("email")</h1>
+        <p>
+            To The Library of UWorld
+            <br />
+            <a href="https://localhost:44348/Books/GetListofBooks">GET STARTED</a>
+        </p>
+    </div>
+}

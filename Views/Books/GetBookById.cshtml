@@ -1,0 +1,98 @@
+﻿@model Book
+
+@{
+    ViewData["Title"] = "GetBookById";
+}
+
+<div>
+    <h4>Book</h4>
+    <hr />
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8">
+                <table class="table table-striped">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BookId)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(model => model.BookId)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Isbn)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(model => model.Isbn)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(model => model.Title)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PageCount)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(model => model.PageCount)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PublishedDate)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(model => model.PublishedDate)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShortDescription)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(model => model.ShortDescription)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LongDescription)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(model => model.LongDescription)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Authors)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(model => model.Authors)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Categories)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(model => model.Categories)
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col m-5">
+                <img src=@Html.DisplayFor(model => model.ThumbnailUrl) height="60%"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <a class="btn btn-primary p-2" asp-action="GetListofBooks">Back to List</a>
+</div>
+<br />

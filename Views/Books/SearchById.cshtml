@@ -1,0 +1,96 @@
+﻿@model Book
+
+@{
+    ViewData["Title"] = "SearchById";
+}
+
+
+
+<div class="container">
+    <h1>Search Book</h1>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+        <label class="form-check-label" for="exampleRadios1">
+            Search By Id
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+        <label class="form-check-label" for="exampleRadios2">
+            Search By ISBN
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option3">
+        <label class="form-check-label" for="exampleRadios2">
+            Search By Title
+        </label>
+    </div>
+    <br />
+    
+    <div id="input-container">
+        <form asp-action="SearchBookById" method="get">
+            <input name="id" class="form-control" placeholder="Enter Book ID" /><br />
+            <input class="btn btn-primary" type="submit" value="Search" onclick="getBooks()"/>
+        </form>
+    </div>
+    <br />
+    @if (@Model != null)
+    {
+        <div class="card" style="width:15rem">
+            <a asp-action="GetBookById" asp-route-id="@Model.BookId">
+                <img src=@Html.DisplayFor(modelItem => Model.ThumbnailUrl) class="card-img-top" alt="...">
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => Model.Title)</h5>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    var radios = document.getElementsByName("exampleRadios");
+    for (var i = 0, max = radios.length; i < max; i++) {
+        radios[i].onclick = function () {
+            if (this.value == "option1") {
+                document.getElementById("input-container").innerHTML = `
+                    <form>
+                    <input name=id class="form-control" placeholder="Enter Book ID"/><br/>
+                    <input class="btn btn-primary" type="submit" value="Search" onclick="getBookById()"/>
+                    </form>
+                    `;
+            }
+            if (this.value == "option2") {
+                document.getElementById("input-container").innerHTML = `
+                    <form asp-action="GetBookById" method="get">
+                    <input class="form-control" placeholder="Enter ISBN"/><br/>
+                    <input class="btn btn-primary" type="submit" value="Search"/>
+                    </form>
+                    `;
+            }
+            if (this.value == "option3") {
+                document.getElementById("input-container").innerHTML = `
+                    <form asp-action="GetBookById" method="get">
+                    <input class="form-control" placeholder="Enter Book Title"/><br/>
+                    <input class="btn btn-primary" type="submit" value="Search"/>
+                    </form>
+                    `;
+            }
+
+        }
+    }
+</script>
+
+<script>
+    function getBooks() {
+        console.log("hii");
+        $.ajax({
+            url: "https://localhost:44351/api/Books/GetBookById/01",
+            cache: false,
+            success: function (html) {
+                //$("#results").append(html);
+                console.log("hello");
+            }
+        });
+    }
+</script>
