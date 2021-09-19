@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Book>
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+
+
+<div class="container">
+    <h1>Search Books</h1>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+        <label class="form-check-label" for="exampleRadios1">
+            Search By Id
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+        <label class="form-check-label" for="exampleRadios2">
+            Search By ISBN
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option3">
+        <label class="form-check-label" for="exampleRadios2">
+            Search By Title
+        </label>
+    </div>
+    <br />
+
+    <div id="input-container"></div>
+    <br />
+    @try
+    {
+        if (Model != null)
+        {
+            <div class="image-container">
+                @foreach (var item in Model)
+                {
+                    <div class="card">
+                        <a asp-action="GetBookById" asp-route-id=@item.BookId><img class="card-img-top" src=@Html.DisplayFor(modelItem => item.ThumbnailUrl) alt="..."></a>
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+    catch
+    {
+
+    }
+</div>
+
+<script>
+    var radios = document.getElementsByName("exampleRadios");
+    for (var i = 0, max = radios.length; i < max; i++) {
+        radios[i].onclick = function () {
+            if (this.value == "option1") {
+                document.getElementById("input-container").innerHTML = `
+                        <form action="SearchBookById" method="get">
+                        <input name="id" class="form-control" placeholder="Enter Book ID" /><br />
+                        <input class="btn btn-primary" type="submit" value="Search"/>
+                        </form>
+                    `;
+            }
+            if (this.value == "option2") {
+                document.getElementById("input-container").innerHTML = `
+                    <form action="SearchBookByIsbn" method="get">
+                    <input name="isbn" class="form-control" placeholder="Enter ISBN"/><br/>
+                    <input class="btn btn-primary" type="submit" value="Search"/>
+                    </form>
+                    `;
+            }
+            if (this.value == "option3") {
+                document.getElementById("input-container").innerHTML = `
+                    <form action="SearchBooksByTitle" method="get">
+                    <input name="title" class="form-control" placeholder="Enter Book Title"/><br/>
+                    <input class="btn btn-primary" type="submit" value="Search"/>
+                    </form>
+                    `;
+            }
+
+        }
+    }
+</script>

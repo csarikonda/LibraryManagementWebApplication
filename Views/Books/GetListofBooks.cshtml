@@ -1,96 +1,29 @@
 ﻿@model IEnumerable<Book>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "GetListofBooks";
 }
 
-<h1>GetListofBooks</h1>
+<h1>List of Books</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (HttpContextAccessor.HttpContext.Session.GetString("email") != null)
+{ 
+    <h1 class="d-flex justify-content-end">
+        <a class="btn btn-primary font-weight-bolder " asp-action="Create">Add New Book</a>
+    </h1>
 
+}
 
-<table class="table">
-        @try
-        {
-            @for (int item = 0; item < Model.Count(); item = item + 6)
-            {
-                <tr class="row">
-                    <td class="col-md-2 h-100">
-                        <div class="card-group">
-                            <div class="card">
-                                <a asp-action="GetBookById" asp-route-id="@Model.ToList()[item].BookId">
-                                    <img src=@Html.DisplayFor(modelItem => Model.ToList()[item].ThumbnailUrl) class="card-img-top" alt="...">
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title">@Html.DisplayFor(modelItem => Model.ToList()[item].Title)</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="col-md-2 h-100">
-                        <div class="card-group">
-                            <div class="card">
-                                <a asp-action="GetBookById" asp-route-id="@Model.ToList()[item+1].BookId">
-                                    <img src=@Html.DisplayFor(modelItem => Model.ToList()[item+1].ThumbnailUrl) class="card-img-top" alt="...">
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title">@Html.DisplayFor(modelItem => Model.ToList()[item + 1].Title)</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="col-md-2 h-100">
-                        <div class="card-group">
-                            <div class="card">
-                                <a asp-action="GetBookById" asp-route-id="@Model.ToList()[item+2].BookId">
-                                    <img src=@Html.DisplayFor(modelItem => Model.ToList()[item+2].ThumbnailUrl) class="card-img-top" alt="...">
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title">@Html.DisplayFor(modelItem => Model.ToList()[item + 2].Title)</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="col-md-2 h-100">
-                        <div class="card-group">
-                            <div class="card">
-                                <a asp-action="GetBookById" asp-route-id="@Model.ToList()[item+3].BookId">
-                                    <img src=@Html.DisplayFor(modelItem => Model.ToList()[item+3].ThumbnailUrl) class="card-img-top" alt="...">
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title">@Html.DisplayFor(modelItem => Model.ToList()[item + 3].Title)</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="col-md-2 h-100">
-                        <div class="card-group">
-                            <div class="card">
-                                <a asp-action="GetBookById" asp-route-id="@Model.ToList()[item+4].BookId">
-                                    <img src=@Html.DisplayFor(modelItem => Model.ToList()[item+4].ThumbnailUrl) class="card-img-top" alt="...">
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title">@Html.DisplayFor(modelItem => Model.ToList()[item + 4].Title)</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="col-md-2 h-100">
-                        <div class="card-group">
-                            <div class="card">
-                                <a asp-action="GetBookById" asp-route-id="@Model.ToList()[item+5].BookId">
-                                    <img src=@Html.DisplayFor(modelItem => Model.ToList()[item+5].ThumbnailUrl) class="card-img-top" alt="...">
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title">@Html.DisplayFor(modelItem => Model.ToList()[item + 5].Title)</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            }
-        }
-        catch { }
-</table>
+<div class="image-container">
+    @foreach (var item in Model)
+    {
+        <div class="card">
+            <a asp-action="GetBookById" asp-route-id=@item.BookId><img class="card-img-top" src=@Html.DisplayFor(modelItem => item.ThumbnailUrl) alt="..."></a>
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+            </div>
+        </div>
+    }
+</div>

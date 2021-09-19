@@ -21,12 +21,17 @@ namespace LibraryManagementWebApplication.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult SearchById(Book book)
+        public ActionResult Search(Book book)
         {
-            var url = (TempData["book"] as Book)?.ThumbnailUrl;
-            if (book.ThumbnailUrl != null)
+            try {
+                ViewData["books"] = JsonConvert.DeserializeObject<List<Book>>((string)TempData["book"]);
+            } catch { 
+            
+            }
+            
+            if (ViewData.Count()>=1)
             {
-                return View(book);
+                return View(ViewData["books"]);
             }
             else
             {
@@ -56,12 +61,13 @@ namespace LibraryManagementWebApplication.Controllers
         }
 
         // GET: BooksController/Edit/5
+        [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
             Book book = new Book();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44351/api/Books/" + id))
+                using (var response = await httpClient.GetAsync("https://localhost:44351/api/Books/GetBookById/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     book = JsonConvert.DeserializeObject<Book>(apiResponse);
@@ -80,7 +86,7 @@ namespace LibraryManagementWebApplication.Controllers
             {
                 long id = book.BookId;
                 StringContent content = new StringContent(JsonConvert.SerializeObject(book), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PutAsync("https://localhost:44351/api/Books/" + id, content))
+                using (var response = await httpClient.PutAsync("https://localhost:44324/api/Books/" + id, content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     ViewBag.Result = "Success";
@@ -110,20 +116,16 @@ namespace LibraryManagementWebApplication.Controllers
                 return View();
             }
         }
+
         [HttpGet]
         public async Task<IActionResult> SearchBookById(int id)
         {
             Book book =await GetBook(id);
-            book.Authors = null;
-            book.Categories = null;
-            book.Isbn = null;
-            book.LongDescription = null;
-            book.ShortDescription = null;
-            book.PublishedDate = null;
-
-            TempData["book"] = book;
-
-            return RedirectToAction("SearchById");
+            List<Book> books = new List<Book>();
+            books.Add(book);
+            TempData["book"] = JsonConvert.SerializeObject(books);
+            
+            return RedirectToAction("Search");
         }
         
         [HttpGet]
@@ -157,9 +159,34 @@ namespace LibraryManagementWebApplication.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBooksByTitle(string title)
+        public async Task<IActionResult> SearchBookByIsbn(string isbn)
         {
-            List<Book> BooksInfo = new List<Book>();
+            List<Book> Books = new List<Book>();
+
+            using (var client = new HttpClient())
+            {
+                string Baseurl = "https://localhost:44351/";
+
+                //Passing service base url  
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage Res = await client.GetAsync("api/Books/GetBookByIsbn/" + HttpUtility.UrlEncode(isbn));
+                if (Res.IsSuccessStatusCode)
+                {
+                    var Response = Res.Content.ReadAsStringAsync().Result;
+                    Books = JsonConvert.DeserializeObject<List<Book>>(Response);
+                }
+                TempData["book"] = JsonConvert.SerializeObject(Books);
+                return RedirectToAction("Search");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchBooksByTitle(string title)
+        {
+            List<Book> Books = new List<Book>();
 
             using (var client = new HttpClient())
             {
@@ -174,10 +201,10 @@ namespace LibraryManagementWebApplication.Controllers
                 if (Res.IsSuccessStatusCode)
                 {
                     var Response = Res.Content.ReadAsStringAsync().Result;
-                    BooksInfo = JsonConvert.DeserializeObject<List<Book>>(Response);
+                    Books = JsonConvert.DeserializeObject<List<Book>>(Response);
                 }
-
-                return RedirectToAction("SearchById", BooksInfo);
+                TempData["book"] = JsonConvert.SerializeObject(Books);
+                return RedirectToAction("Search");
             }
         }
 

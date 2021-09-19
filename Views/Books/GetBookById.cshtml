@@ -1,11 +1,20 @@
 ﻿@model Book
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
 
 @{
     ViewData["Title"] = "GetBookById";
 }
 
 <div>
-    <h4>Book</h4>
+    @if (HttpContextAccessor.HttpContext.Session.GetString("email") != null)
+    {
+        <div class="d-flex justify-content-between">
+            <h4>@Html.DisplayFor(model => model.Title)</h4>
+            <a class="btn btn-primary" asp-controller="Books" asp-action="Edit" asp-route-Id="@Model.BookId">Edit book</a>
+        </div>
+    }
     <hr />
 
     <div class="container-fluid">
@@ -26,14 +35,6 @@
                         </th>
                         <td>
                             @Html.DisplayFor(model => model.Isbn)
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Title)
-                        </th>
-                        <td>
-                            @Html.DisplayFor(model => model.Title)
                         </td>
                     </tr>
                     <tr>
@@ -87,7 +88,7 @@
                 </table>
             </div>
             <div class="col m-5">
-                <img src=@Html.DisplayFor(model => model.ThumbnailUrl) height="60%"/>
+                <img src=@Html.DisplayFor(model => model.ThumbnailUrl) height="60%" />
             </div>
         </div>
     </div>

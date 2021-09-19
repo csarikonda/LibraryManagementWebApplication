@@ -29,16 +29,16 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="GetListofBooks">Get Books</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="https://localhost:44319/Books/SearchById">Search Books</a>
+                            <a class="nav-link text-dark" href="https://localhost:44319/Books/Search">Search Books</a>
                         </li>
                         @if (HttpContextAccessor.HttpContext.Session.GetString("email") != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Profile</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Profile">Profile</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Settings</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Settings">Settings</a>
                             </li>
                             <li class="nav-item ml-auto">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Logout">Logout <img src="https://img.icons8.com/ios-filled/20/000000/logout-rounded.png" /></a>

@@ -1,0 +1,20 @@
+﻿@model LibraryManagementWebApplication.Models.Admin
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Profile</h1>
+<div class="container d-flex justify-content-center">
+    <div class="row" style="width: 18rem;">
+        <img class="card-img-top img-thumbnail" src="/img/download.png" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayFor(model => model.Mail)</h5>
+            <p class="card-text">ID: @Html.DisplayFor(model => model.Id)</p>
+            <p class="card-subtitle">Password: @Html.DisplayFor(model => model.Password)</p>
+        </div>
+    </div>
+</div>

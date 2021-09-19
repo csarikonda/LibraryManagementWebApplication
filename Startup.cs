@@ -29,7 +29,7 @@ namespace LibraryManagementWebApplication
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromSeconds(60);
+                options.IdleTimeout = TimeSpan.FromHours(24);
                 options.Cookie.HttpOnly = false;
                 options.Cookie.IsEssential = false;
             });
