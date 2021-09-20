@@ -60,8 +60,9 @@ namespace LibraryManagementWebApplication.Controllers
         }
 
         // GET: AdminController/Create
-        public ActionResult AddAdmin()
+        public ActionResult AddAdmin(string addAdminError=null)
         {
+            ViewBag.addAdminError = addAdminError;
             return View();
         }
 
@@ -75,10 +76,20 @@ namespace LibraryManagementWebApplication.Controllers
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(a), Encoding.UTF8, "application/json");
 
-                using (var response = await httpClient.PostAsync("https://localhost:44324/api/Admins/", content))
+                var mailResponse = await httpClient.GetAsync("https://localhost:44324/api/Admins/GetAdminByEmail/" + HttpUtility.UrlEncode(a.Mail) );
+
+                if (mailResponse.StatusCode == HttpStatusCode.OK)
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    admin = JsonConvert.DeserializeObject<Admin>(apiResponse);
+                    return RedirectToAction("AddAdmin", "Admin", new { addAdminError = "Email Id Already Exists" });
+                }
+                else
+                {
+                    ViewBag.addAdminError = null;
+                    using (var response = await httpClient.PostAsync("https://localhost:44324/api/Admins/", content))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        admin = JsonConvert.DeserializeObject<Admin>(apiResponse);
+                    }
                 }
             }
             return RedirectToAction("Index");

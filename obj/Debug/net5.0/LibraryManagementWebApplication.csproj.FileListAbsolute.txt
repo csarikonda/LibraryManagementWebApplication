@@ -415,3 +415,5 @@ D:\Training\LibraryManagementWebApplication\obj\Debug\net5.0\LibraryManagementWe
 D:\Training\LibraryManagementWebApplication\obj\Debug\net5.0\Razor\Views\Books\Search.cshtml.g.cs
 D:\Training\LibraryManagementWebApplication\obj\Debug\net5.0\LibraryManagementWebApplication.csproj.AssemblyReference.cache
 D:\Training\LibraryManagementWebApplication\obj\Debug\net5.0\Razor\Views\Books\Edit.cshtml.g.cs
+D:\Training\LibraryManagementWebApplication\obj\Debug\net5.0\Razor\Views\Books\Delete.cshtml.g.cs
+D:\Training\LibraryManagementWebApplication\obj\Debug\net5.0\Razor\Views\Books\AddBook.cshtml.g.cs

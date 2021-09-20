@@ -10,16 +10,28 @@
 <div>
     @if (HttpContextAccessor.HttpContext.Session.GetString("email") != null)
     {
-        <div class="d-flex justify-content-between">
-            <h4>@Html.DisplayFor(model => model.Title)</h4>
+    <div class="d-flex justify-content-between">
+        <h4>@Html.DisplayFor(model => model.Title)</h4>
+        <div>
             <a class="btn btn-primary" asp-controller="Books" asp-action="Edit" asp-route-Id="@Model.BookId">Edit book</a>
+            <a class="btn btn-danger" asp-controller="Books" asp-action="Delete" asp-route-Id="@Model.BookId">Delete book</a>
         </div>
+    </div>
     }
     <hr />
 
-    <div class="container-fluid">
+    <div class="container">
+
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-md-8"><h4>@Html.DisplayFor(model => model.Title)</h4></div>
+            <div class="col-md-4" align="right"><a class="btn btn-primary p-2 mb-2" asp-action="GetListofBooks">Back to List</a></div>
+        </div>
+        <div class="row">
+
+            <div class="col-lg-5">
+                <img src=@Html.DisplayFor(model => model.ThumbnailUrl) width="100%" />
+            </div>
+            <div class="col-lg-7">
                 <table class="table table-striped">
                     <tr>
                         <th>
@@ -35,6 +47,14 @@
                         </th>
                         <td>
                             @Html.DisplayFor(model => model.Isbn)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(model => model.Title)
                         </td>
                     </tr>
                     <tr>
@@ -63,14 +83,6 @@
                     </tr>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.LongDescription)
-                        </th>
-                        <td>
-                            @Html.DisplayFor(model => model.LongDescription)
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             @Html.DisplayNameFor(model => model.Authors)
                         </th>
                         <td>
@@ -87,13 +99,12 @@
                     </tr>
                 </table>
             </div>
-            <div class="col m-5">
-                <img src=@Html.DisplayFor(model => model.ThumbnailUrl) height="60%" />
+            <div class="col-md-12 long-des">
+                <h5>@Html.DisplayNameFor(model => model.LongDescription)</h5>
+                <p>@Html.DisplayFor(model => model.LongDescription)</p>
             </div>
+
         </div>
     </div>
-</div>
-<div>
-    <a class="btn btn-primary p-2" asp-action="GetListofBooks">Back to List</a>
 </div>
 <br />

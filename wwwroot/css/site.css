@@ -82,10 +82,71 @@ body {
     column-gap:20px;
 }
 
-/*.image-container{
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    column-gap:100px;
+
+
+
+
+
+.long-des {
+    margin: 20px 0px;
+    background: #edf7ff;
+    padding: 25px;
 }
-*/
+
+.h-400 {
+    height: 400px;
+}
+
+.valignc {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #edf7ff !important;
+}
+
+.w-80p {
+    width: 80%;
+}
+
+
+.slider-text {
+    background: #fff;
+    width: 100%;
+    padding: 40px 40px;
+}
+
+.slider-imgs {
+    background: #5ba5e6;
+    padding: 20px 20px;
+}
+
+.slider-search {
+    background: #5ba5e6;
+    padding: 13px 13px;
+}
+
+.card-bg-color {
+    background-color: #edf7ff;
+}
+
+.admin-bg-img {
+    background: url("../img/slide-5.jpg");
+    /* Full height */
+    height: 100% !important;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.admin-text {
+    background: #f7f3f3;
+    width: 100%;
+    padding: 40px 40px;
+    border: 10px solid #9e6d59;
+}

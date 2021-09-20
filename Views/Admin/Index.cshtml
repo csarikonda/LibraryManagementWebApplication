@@ -1,29 +1,34 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿
+@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 
-@{
-    ViewData["Title"] = "Index";
-}
+@{ ViewData["Title"] = "Index"; }
 
 
 @if (HttpContextAccessor.HttpContext.Session.GetString("email") == null)
 {
-    <div class="container">
-        <div>
-            <div>
-                <h1>Login</h1>
-                @if (ViewBag.LoginError != null)
-                {
-                    <p class="text-danger">Enter Valid Credentials</p>
-                }
-                <br />
-                <form asp-action="Login" method="get">
-                    <input name="email" class="form-control" type="email" placeholder="Email" />
+
+
+    <div class="container-fluid mt-198 w-80p">
+        <div class="row row-bg-slider">
+            <div class="col-md-7">
+                <img src="~/img/slide-1.jpg" />
+            </div>
+            <div class="col-md-5">
+                <div class="text-center valignc admin-text">
+                    <h3>Admin Login</h3>
+                    @if (ViewBag.LoginError != null)
+                    {
+                        <p class="text-danger">Enter Valid Credentials</p>}
                     <br />
-                    <input name="password" class="form-control" type="password" placeholder="Password" />
-                    <br />
-                    <input class="btn btn-primary" type="submit" value="Login" />
-                </form>
+                    <form asp-action="Login" method="get">
+                        <input name="email" class="form-control" type="email" placeholder="Email" />
+                        <br />
+                        <input name="password" class="form-control" type="password" placeholder="Password" />
+                        <br />
+                        <input class="btn btn-primary" type="submit" value="Login" />
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -37,5 +42,4 @@ else
             <br />
             <a href="https://localhost:44348/Books/GetListofBooks">GET STARTED</a>
         </p>
-    </div>
-}
+    </div>}

@@ -38,26 +38,30 @@ namespace LibraryManagementWebApplication.Controllers
                 return View();
             }
         }
-        
+
         // GET: BooksController/Create
-        public ActionResult Create()
+        public ActionResult AddBook()
         {
             return View();
         }
 
-        // POST: BooksController/Create
+        // POST: AdminController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> AddBook(Book b)
         {
-            try
+            Book book = new Book();
+            using (var httpClient = new HttpClient())
             {
-                return RedirectToAction(nameof(Index));
+                StringContent content = new StringContent(JsonConvert.SerializeObject(b), Encoding.UTF8, "application/json");
+
+                    using (var response = await httpClient.PostAsync("https://localhost:44324/api/Books/", content))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        book = JsonConvert.DeserializeObject<Book>(apiResponse);
+                    }
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("GetListofBooks");
         }
 
         // GET: BooksController/Edit/5
@@ -97,24 +101,37 @@ namespace LibraryManagementWebApplication.Controllers
         }
 
         // GET: BooksController/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            TempData["bookid"] = id;
+            Book book = new Book();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44351/api/Books/GetBookById/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    book = JsonConvert.DeserializeObject<Book>(apiResponse);
+                }
+            }
+            return View(book);
         }
 
         // POST: BooksController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
-            try
+            int bookId = Convert.ToInt32(TempData["bookid"]);
+            using (var httpClient = new HttpClient())
             {
-                return RedirectToAction(nameof(Index));
+                using (var response = await httpClient.DeleteAsync("https://localhost:44324/api/books/" + bookId))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("GetListofBooks");
         }
 
         [HttpGet]
